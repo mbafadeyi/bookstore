@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
+from environs import Env
+
+env = Env()
+env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +25,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-eec$7-)n8dp(v-5w)h!u&kec8bewvmhujwpa9(1!r_#5nlb_fy"
+SECRET_KEY = env.str("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("DEBUG", default=False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [".netlify.app", "localhost", "127.0.0.1"]
 
 
 # Application definition
@@ -86,11 +91,11 @@ WSGI_APPLICATION = "django_project.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "bookstore_db",
-        "USER": "postgres",
-        "PASSWORD": "Mayorlee007+",
-        "HOST": "localhost",
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": config("MY_DB_NAME"),
+        "USER": config("MY_DB_USER"),
+        "PASSWORD": config("MY_DB_PASSWORD"),
+        "HOST": config("MY_DB_HOST"),
         "PORT": 5432,
     }
 }
