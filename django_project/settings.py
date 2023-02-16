@@ -12,7 +12,9 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 from decouple import config
+import socket
 from environs import Env
+
 
 env = Env()
 env.read_env()
@@ -50,6 +52,7 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.github",
+    "debug_toolbar",
     # Local
     "accounts.apps.AccountsConfig",
     "pages.apps.PagesConfig",
@@ -64,6 +67,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "django_project.urls"
@@ -180,3 +184,7 @@ EMAIL_HOST_USER = config("MY_EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = config("MY_EMAIL_HOST_PASSWORD")
 EMAIL_PORT = config("MY_EMAIL_PORT")
 EMAIL_USE_TLS = True
+
+
+hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+INTERNAL_IPS = "127.0.0.1"

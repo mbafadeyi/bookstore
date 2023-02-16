@@ -3,6 +3,9 @@
 {% block title %}{{ book.title }}{% endblock title %}
 
 {% block content %}
+{% if user.is_authenticated %}
+<h5>Welcome {{ user.username }} !</h5></br>
+{% endif %}
 <div class="book-detail">
     {% if book.cover %}
     <img class="bookcover" src="{{ book.cover.url }}" alt="{{ book.title }}">
